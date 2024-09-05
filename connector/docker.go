@@ -203,7 +203,7 @@ func (cm *Docker) refreshAll() {
 
 	for _, i := range allContainers {
 		c := cm.MustGet(i.ID)
-		c.SetMeta("name", shortName(i.Names[0]))
+		c.SetMeta("name", shortName(i.Names[0], i.ID))
 		c.SetState(i.State)
 		cm.needsRefresh <- c.Id
 	}
