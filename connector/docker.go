@@ -295,5 +295,6 @@ func shortName(name, id string) string {
 // use short image name
 func shortImage(image string) string {
 	tag := strings.Split(image, "@")[0]
-	return strings.Split(tag, "/")[1]
+	short := strings.Split(tag, "/")
+	return short[len(short)-1]
 }
