@@ -169,7 +169,7 @@ func (cm *Docker) refresh(c *container.Container) {
 		cm.delByID(c.Id)
 		return
 	}
-	c.SetMeta("name", shortName(insp.Name))
+	c.SetMeta("name", shortName(insp.Name, c.Id))
 	c.SetMeta("image", insp.Config.Image)
 	c.SetMeta("IPs", ipsFormat(insp.NetworkSettings.Networks))
 	c.SetMeta("ports", portsFormat(insp.NetworkSettings.Ports))
@@ -287,6 +287,7 @@ func (cm *Docker) All() (containers container.Containers) {
 }
 
 // use primary container name
-func shortName(name string) string {
-	return strings.TrimPrefix(name, "/")
+func shortName(name, id string) string {
+	// return strings.TrimPrefix(name, "/")
+	return strings.TrimSuffix(name, id)
 }
