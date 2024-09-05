@@ -170,7 +170,7 @@ func (cm *Docker) refresh(c *container.Container) {
 		return
 	}
 	c.SetMeta("name", shortName(insp.Name, c.Id))
-	c.SetMeta("image", insp.Config.Image)
+	c.SetMeta("image", shortImage(insp.Config.Image))
 	c.SetMeta("IPs", ipsFormat(insp.NetworkSettings.Networks))
 	c.SetMeta("ports", portsFormat(insp.NetworkSettings.Ports))
 	c.SetMeta("created", insp.Created.Format("Mon Jan 2 15:04:05 2006"))
@@ -286,8 +286,14 @@ func (cm *Docker) All() (containers container.Containers) {
 	return containers
 }
 
-// use primary container name
+// use short container name
 func shortName(name, id string) string {
 	// return strings.TrimPrefix(name, "/")
 	return strings.TrimSuffix(name, id)
+}
+
+// use short image name
+func shortImage(image string) string {
+	tag := strings.Split(image, "@")[0]
+	return strings.Split(tag, "/")[1]
 }
